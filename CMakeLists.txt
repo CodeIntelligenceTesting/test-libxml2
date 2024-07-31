@@ -8,7 +8,9 @@ if(${VERSION} MATCHES [[([0-9]+)\.([0-9]+)\.([0-9]+)]])
     set(LIBXML_MICRO_VERSION ${CMAKE_MATCH_3})
 endif()
 
-project(libxml2 VERSION ${VERSION} LANGUAGES C)
+project(libxml2 VERSION ${VERSION} LANGUAGES C CXX)
+find_package(cifuzz NO_SYSTEM_ENVIRONMENT_PATH)
+enable_fuzz_testing()
 
 include(CheckCSourceCompiles)
 include(CheckFunctionExists)
@@ -701,3 +703,6 @@ set(CPACK_RPM_runtime_PACKAGE_NAME "${PACKAGE_NAME}")
 set(CPACK_RPM_runtime_PACKAGE_SUGGESTS "${PACKAGE_NAME}-utils")
 
 include(CPack)
+
+add_fuzz_test(fuzz fuzz.cpp)
+target_link_libraries(fuzz LibXml2)

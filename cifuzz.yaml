@@ -1,0 +1,2 @@
+## Configuration for a CI Fuzz project
+build-system: cmake
